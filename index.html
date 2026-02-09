@@ -1,12 +1,450 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Smart Proctoring System</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<title>SKIT Smart Proctoring System</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <pre><h1> Sri Krishna Institute of Technology 
-      Welcome to SKIT Smart Proctoring System</h1></pre>
-    <a href="roles.html">Login</a>
+<!--  WELCOME PAGE  -->
+<section id="welcome">
+    <div class="overlay">
+        <h2>Welcome to the campus SKIT</h2>
+        <img src="images/logo.jpg" class="logo" alt="SKIT Logo">
+        <h1>Sri Krishna Institute of Technology</h1>
+        <p>Smart Campus Proctoring System</p>
+        <button onclick="showSection('roles')">Login</button>
+        <div class="footer-text">
+            © 2026 Sri Krishna Institute of Technology
+        </div>
+    </div>
+</section>
+<!--ROLE SELECTION -->
+<section id="roles">
+    <div class="roles-wrapper">
+        <h2>Select Your Role</h2>
+        <div class="role-container">
+            <div class="role-card" onclick="showSection('student-login')">
+                <div class="role-emoji">🎓</div>
+                <p>Student</p>
+            </div>
+            <div class="role-card" onclick="showSection('proctor-login')">
+                <div class="role-emoji">🧑‍🏫</div>
+                <p>Proctor</p>
+            </div>
+            <div class="role-card" onclick="showSection('admin-login')">
+                <div class="role-emoji">🛡️</div>
+                <p>Admin</p>
+            </div>
+        </div>
+        <button class="back-btn" onclick="showSection('welcome')">Back</button>
+    </div>
+</section>
+<!--STUDENT LOGIN -->
+<section id="student-login" class="dashboard">
+    <div class="card">
+        <h2>🎓 Student Login</h2>
+        <input type="text" id="student-username" placeholder="USN / Username" required><br><br>
+        <input type="password" id="student-password" placeholder="Password" required><br><br>
+        <button onclick="login('student')">Login</button>
+        <button class="back-btn" onclick="showSection('roles')">Back</button>
+    </div>
+</section>
+<!--STUDENT DASHBOARD -->
+<section id="student" class="dashboard-main">
+    <div class="header-bar">
+        <h2>🎓 Student Dashboard</h2>
+        <button class="back-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Student Profile -->
+    <div class="card">
+        <h3>👤 Student Profile</h3>
+        <p><b>Name:</b> <span id="std-name">Anusha V</span></p>
+        <p><b>USN:</b> <span id="std-usn">1SK20CS001</span></p>
+        <p><b>Branch:</b> <span id="std-branch">Computer Science</span></p>
+        <p><b>Semester:</b> <span id="std-semester">6</span></p>
+        <p><b>Assigned Proctor:</b> <span id="std-proctor">Dr. Ramesh Kumar</span></p>
+    </div>
+
+    <!-- Attendance Overview -->
+    <div class="card">
+        <h3>📊 Attendance Overview</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div>
+                <p><b>Overall Attendance:</b></p>
+                <p style="font-size: 24px; color: #27ae60;"><span id="std-overall-att">82</span>%</p>
+                <p id="std-att-status" style="color: #27ae60;"><b>✓ Eligible</b></p>
+            </div>
+            <div>
+                <p><b>Subject-wise Attendance:</b></p>
+                <div id="std-subject-att"></div>
+                <p style="font-size: 12px; color: #7f8c8d;"><i>Last updated: <span id="std-last-updated">Today</span></i></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timetable -->
+    <div class="card">
+        <h3>📅 Class Timetable</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #ecf0f1;">
+                    <th style="border: 1px solid #bdc3c7; padding: 8px;">Day</th>
+                    <th style="border: 1px solid #bdc3c7; padding: 8px;">Subject</th>
+                    <th style="border: 1px solid #bdc3c7; padding: 8px;">Faculty</th>
+                    <th style="border: 1px solid #bdc3c7; padding: 8px;">Time</th>
+                </tr>
+            </thead>
+            <tbody id="std-timetable"></tbody>
+        </table>
+    </div>
+
+    <!-- Notifications & Alerts -->
+    <div class="card">
+        <h3>🔔 Notifications & Alerts</h3>
+        <div id="std-notifications"></div>
+    </div>
+
+    <!-- Academic Summary -->
+    <div class="card">
+        <h3>📈 Academic Summary</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div>
+                <p><b>Internal Marks Obtained:</b></p>
+                <div id="std-internal-marks"></div>
+            </div>
+            <div>
+                <p><b>Assignment Status:</b></p>
+                <div id="std-assignments"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--PROCTOR LOGIN -->
+<section id="proctor-login" class="dashboard">
+    <div class="card">
+        <h2>🧑‍🏫 Proctor Login</h2>
+        <input type="text" id="proctor-username" placeholder="Staff ID / Email" required><br><br>
+        <input type="password" id="proctor-password" placeholder="Password" required><br><br>
+        <button onclick="login('proctor')">Login</button>
+        <button class="back-btn" onclick="showSection('roles')">Back</button>
+    </div>
+</section>
+
+<!--PROCTOR DASHBOARD-->
+<section id="proctor" class="dashboard-main">
+    <div class="header-bar">
+        <h2>🧑‍🏫 Proctor Dashboard</h2>
+        <button class="back-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div style="margin: 15px 0; display: flex; gap: 10px;">
+        <button class="tab-btn active" onclick="switchTab('proctor', 'students-list')">👥 Students</button>
+        <button class="tab-btn" onclick="switchTab('proctor', 'attendance-mgmt')">✓ Mark Attendance</button>
+        <button class="tab-btn" onclick="switchTab('proctor', 'student-monitoring')">📊 Monitoring</button>
+        <button class="tab-btn" onclick="switchTab('proctor', 'reports')">📋 Reports</button>
+    </div>
+
+    <!-- Assigned Students List -->
+    <div id="proctor-students-list" class="tab-content">
+        <div class="card">
+            <h3>👥 Assigned Students List</h3>
+            <input type="text" id="proctor-search" placeholder="Search by USN / Name" style="margin-bottom: 15px; padding: 8px; width: 100%; box-sizing: border-box;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #ecf0f1;">
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">USN</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Name</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Overall Attendance</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="proctor-students-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Attendance Management -->
+    <div id="proctor-attendance-mgmt" class="tab-content" style="display: none;">
+        <div class="card">
+            <h3>✓ Mark Attendance</h3>
+            <p><b>Date:</b> <input type="date" id="proctor-date" style="padding: 5px;"></p>
+            <p><b>Subject:</b> 
+                <select id="proctor-subject" style="padding: 5px;">
+                    <option>Data Structures</option>
+                    <option>Algorithms</option>
+                    <option>Database Systems</option>
+                    <option>Web Development</option>
+                </select>
+            </p>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                <thead>
+                    <tr style="background: #ecf0f1;">
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">USN</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Name</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Attendance</th>
+                    </tr>
+                </thead>
+                <tbody id="proctor-attendance-tbody"></tbody>
+            </table>
+            <button style="margin-top: 15px; padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">Submit Attendance</button>
+        </div>
+    </div>
+
+    <!-- Student Monitoring -->
+    <div id="proctor-student-monitoring" class="tab-content" style="display: none;">
+        <div class="card">
+            <h3>📊 Student Monitoring</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div style="background: #fff3cd; padding: 15px; border-radius: 4px;">
+                    <p><b>⚠️ Shortage Students:</b></p>
+                    <p style="font-size: 24px;"><span id="proctor-shortage-count">2</span> Students</p>
+                </div>
+                <div style="background: #d4edda; padding: 15px; border-radius: 4px;">
+                    <p><b>✓ Eligible Students:</b></p>
+                    <p style="font-size: 24px;"><span id="proctor-eligible-count">8</span> Students</p>
+                </div>
+            </div>
+            <h4>Shortage Students Details:</h4>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #ecf0f1;">
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">USN</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Name</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Attendance %</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Add Remark</th>
+                    </tr>
+                </thead>
+                <tbody id="proctor-shortage-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Reports -->
+    <div id="proctor-reports" class="tab-content" style="display: none;">
+        <div class="card">
+            <h3>📋 Attendance Reports</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #ecf0f1;">
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">USN</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Name</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Overall %</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Present Days</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Absent Days</th>
+                    </tr>
+                </thead>
+                <tbody id="proctor-reports-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ADMIN LOGIN -->
+<section id="admin-login" class="dashboard">
+    <div class="card">
+        <h2>🛡️ Admin Login</h2>
+        <input type="text" id="admin-username" placeholder="Admin ID" required><br><br>
+        <input type="password" id="admin-password" placeholder="Password" required><br><br>
+        <button onclick="login('admin')">Login</button>
+        <button class="back-btn" onclick="showSection('roles')">Back</button>
+    </div>
+</section>
+
+<!--ADMIN DASHBOARD-->
+<section id="admin" class="dashboard-main">
+    <div class="header-bar">
+        <h2>🛡️ Admin Dashboard</h2>
+        <button class="back-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div style="margin: 15px 0; display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="tab-btn active" onclick="switchTab('admin', 'overview')">📊 Overview</button>
+        <button class="tab-btn" onclick="switchTab('admin', 'user-mgmt')">👥 Users</button>
+        <button class="tab-btn" onclick="switchTab('admin', 'academic-setup')">🎓 Academic</button>
+        <button class="tab-btn" onclick="switchTab('admin', 'analytics')">📈 Analytics</button>
+        <button class="tab-btn" onclick="switchTab('admin', 'data-control')">🔧 Data Control</button>
+    </div>
+
+    <!-- System Overview -->
+    <div id="admin-overview" class="tab-content">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+            <div style="background: #3498db; color: white; padding: 20px; border-radius: 4px; text-align: center;">
+                <p style="margin: 0;"><b>Total Students</b></p>
+                <p style="font-size: 28px; margin: 10px 0;"><span id="admin-total-students">150</span></p>
+            </div>
+            <div style="background: #9b59b6; color: white; padding: 20px; border-radius: 4px; text-align: center;">
+                <p style="margin: 0;"><b>Total Proctors</b></p>
+                <p style="font-size: 28px; margin: 10px 0;"><span id="admin-total-proctors">18</span></p>
+            </div>
+            <div style="background: #27ae60; color: white; padding: 20px; border-radius: 4px; text-align: center;">
+                <p style="margin: 0;"><b>Avg Attendance</b></p>
+                <p style="font-size: 28px; margin: 10px 0;"><span id="admin-avg-attendance">78</span>%</p>
+            </div>
+            <div style="background: #e74c3c; color: white; padding: 20px; border-radius: 4px; text-align: center;">
+                <p style="margin: 0;"><b>Shortage Count</b></p>
+                <p style="font-size: 28px; margin: 10px 0;"><span id="admin-shortage-count">24</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Management -->
+    <div id="admin-user-mgmt" class="tab-content" style="display: none;">
+        <div class="card">
+            <h3>➕ Add Student</h3>
+            <input type="text" placeholder="USN" style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+            <input type="text" placeholder="Name" style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+            <select style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+                <option>Select Semester</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+            </select>
+            <select style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+                <option>Select Branch</option>
+                <option>Computer Science</option>
+                <option>Information Science</option>
+                <option>Electronics</option>
+                <option>Mechanical</option>
+            </select>
+            <button style="margin: 5px; padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">Add Student</button>
+        </div>
+
+        <div class="card">
+            <h3>➕ Add Proctor</h3>
+            <input type="text" placeholder="Staff ID" style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+            <input type="text" placeholder="Name" style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+            <input type="email" placeholder="Email" style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+            <button style="margin: 5px; padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">Add Proctor</button>
+        </div>
+
+        <div class="card">
+            <h3>🧩 Assign Proctors to Students</h3>
+            <select style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+                <option>Select Proctor</option>
+                <option>Dr. Ramesh Kumar</option>
+                <option>Dr. Priya Singh</option>
+                <option>Dr. Amit Patel</option>
+            </select>
+            <select style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+                <option>Select Semester</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+            </select>
+            <button style="margin: 5px; padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">Assign</button>
+        </div>
+    </div>
+
+    <!-- Academic Setup -->
+    <div id="admin-academic-setup" class="tab-content" style="display: none;">
+        <div class="card">
+            <h3>📚 Manage Subjects</h3>
+            <input type="text" placeholder="Subject Name" style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+            <select style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+                <option>Select Semester</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+            </select>
+            <button style="margin: 5px; padding: 8px 16px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">Add Subject</button>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                <thead>
+                    <tr style="background: #ecf0f1;">
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Subject Code</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Subject Name</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Semester</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-subjects-tbody">
+                    <tr>
+                        <td style="border: 1px solid #bdc3c7; padding: 8px;">CS301</td>
+                        <td style="border: 1px solid #bdc3c7; padding: 8px;">Data Structures</td>
+                        <td style="border: 1px solid #bdc3c7; padding: 8px;">6</td>
+                        <td style="border: 1px solid #bdc3c7; padding: 8px;"><button style="color: #e74c3c; cursor: pointer;">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>📅 Manage Timetable</h3>
+            <select style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+                <option>Select Semester</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+            </select>
+            <input type="text" placeholder="Day" style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+            <input type="time" placeholder="Start Time" style="margin: 5px; padding: 8px; width: 100%; box-sizing: border-box;">
+            <button style="margin: 5px; padding: 8px 16px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">Add Timetable Entry</button>
+        </div>
+    </div>
+
+    <!-- Analytics -->
+    <div id="admin-analytics" class="tab-content" style="display: none;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="card">
+                <h3>📊 Attendance Distribution</h3>
+                <p>Above 80%: <b><span id="admin-above80">65</span> Students</b></p>
+                <p>70-80%: <b><span id="admin-70to80">50</span> Students</b></p>
+                <p>Below 70%: <b><span id="admin-below70">35</span> Students</b></p>
+            </div>
+            <div class="card">
+                <h3>👥 Proctor-wise Student Count</h3>
+                <p>Dr. Ramesh Kumar: <b>50 Students</b></p>
+                <p>Dr. Priya Singh: <b>52 Students</b></p>
+                <p>Dr. Amit Patel: <b>48 Students</b></p>
+            </div>
+        </div>
+        <div class="card">
+            <h3>📈 Subject-wise Attendance</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #ecf0f1;">
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Subject</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Avg Attendance %</th>
+                        <th style="border: 1px solid #bdc3c7; padding: 8px;">Total Classes</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-subject-analytics"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Data Control -->
+    <div id="admin-data-control" class="tab-content" style="display: none;">
+        <div class="card">
+            <h3>🔧 Data Management</h3>
+            <p><b>System Logs:</b></p>
+            <div style="background: #ecf0f1; padding: 10px; border-radius: 4px; margin-bottom: 15px; max-height: 200px; overflow-y: auto;">
+                <p style="margin: 5px 0; font-size: 12px;">[2026-02-08 10:30] Admin logged in</p>
+                <p style="margin: 5px 0; font-size: 12px;">[2026-02-08 10:25] Attendance marked for CS-6 Data Structures</p>
+                <p style="margin: 5px 0; font-size: 12px;">[2026-02-08 10:15] Student 1SK20CS001 logged in</p>
+                <p style="margin: 5px 0; font-size: 12px;">[2026-02-08 10:00] Proctor Dr. Ramesh Kumar logged in</p>
+            </div>
+            <button style="margin: 5px; padding: 8px 16px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">Export Data</button>
+            <button style="margin: 5px; padding: 8px 16px; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;">Clear Logs</button>
+        </div>
+    </div>
+</section>
+
+<script src="js/script.js"></script>
 </body>
 </html>
